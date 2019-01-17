@@ -18,7 +18,7 @@ public class TurnDetector {
         // TODO: Implement me!
     }
 
-    public void registerListener(Direction direction) {
+    public void registerListener(Listener listener) {
         // TODO: Implement me!
     }
 
