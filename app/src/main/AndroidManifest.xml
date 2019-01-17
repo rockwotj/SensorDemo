@@ -16,6 +16,29 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".swipeturn.SwipeTurnActivity"
+            android:label="@string/title_activity_swipe_turn"
+            android:parentActivityName=".ChooserActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.rosehulman.sensordemo.ChooserActivity" />
+        </activity>
+        <activity
+            android:name=".scrolltilt.ScrollTiltActivity"
+            android:label="@string/title_activity_scroll_tilt"
+            android:parentActivityName=".ChooserActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.rosehulman.sensordemo.ChooserActivity" />
+        </activity>
+        <activity android:name=".pickshake.PickShakeActivity"
+            android:label="@string/title_activity_pick_shake"
+            android:parentActivityName=".ChooserActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.rosehulman.sensordemo.ChooserActivity" />
+        </activity>
     </application>
 
 </manifest>

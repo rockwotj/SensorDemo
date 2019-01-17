@@ -1,15 +1,16 @@
 package edu.rosehulman.sensordemo.scrolltilt;
 
-import android.app.Context;
+import android.content.Context;
 
 /**
  * A detector for device "Tilts" which is the top or bottom of the device being higher or
  * lower than the other end of the device relative to the distance from the ground. This is similar
- * to, but not the same as rotation along the X axis.
+ * to, but not the same as rotation along the X axis as it will continue to callback as long as
+ * there is a tilt.
  */
 public class TiltDetector {
 
-    private mListener listener;
+    private Listener mListener;
 
     /** The direction of the tilt. */
     public enum Direction {
@@ -21,8 +22,11 @@ public class TiltDetector {
 
     /** A listener for tilt events. */
     public interface Listener {
-        /** Called when a tilt of the device takes place. */
-        void onTilt(Direction direction);
+        /**
+         * Called when a tilt of the device happens in a general direction - also include the
+         * magitude of the tilt on the scale of [0, 1].
+         */
+        void onTilt(Direction direction, double magnitude);
     }
 
     public TiltDetector(Context context) {

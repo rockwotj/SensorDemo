@@ -1,6 +1,6 @@
 package edu.rosehulman.sensordemo.swipeturn;
 
-import android.app.Context;
+import android.content.Context;
 
 /** A detector that waits for a "Turn" or a rotation along the Y axis. */
 public class TurnDetector {

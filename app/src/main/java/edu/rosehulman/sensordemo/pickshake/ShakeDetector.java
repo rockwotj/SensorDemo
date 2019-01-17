@@ -1,6 +1,7 @@
 package edu.rosehulman.sensordemo.pickshake;
 
-import android.app.Context;
+
+import android.content.Context;
 
 /** A detector that waits for the device to be shook along the device's Y axis. */
 public class ShakeDetector {
