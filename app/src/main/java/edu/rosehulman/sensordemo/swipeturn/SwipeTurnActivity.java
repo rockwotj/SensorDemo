@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,7 +50,7 @@ public class SwipeTurnActivity extends FragmentActivity {
                         mViewPager.setCurrentItem(Math.max(mViewPager.getCurrentItem() - 1, 0));
                         break;
                     case RIGHT:
-                        mViewPager.setCurrentItem(Math.max(mViewPager.getCurrentItem() + 1,
+                        mViewPager.setCurrentItem(Math.min(mViewPager.getCurrentItem() + 1,
                                 mSectionsPagerAdapter.getCount() - 1));
                         break;
                 }
