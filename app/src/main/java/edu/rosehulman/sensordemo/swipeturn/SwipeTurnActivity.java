@@ -19,6 +19,7 @@ public class SwipeTurnActivity extends FragmentActivity {
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
+    private TurnDetector mDetector;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +34,32 @@ public class SwipeTurnActivity extends FragmentActivity {
         mViewPager = findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
         // mViewPager.setCurrentItem(mViewPager.getCurrentItem());
+        mDetector = new TurnDetector(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mDetector.registerListener(new TurnDetector.Listener() {
+            @Override
+            public void onTurn(TurnDetector.Direction direction) {
+                switch (direction) {
+                    case LEFT:
+                        mViewPager.setCurrentItem(Math.max(0, mViewPager.getCurrentItem() - 1));
+                        break;
+                    case RIGHT:
+                        mViewPager.setCurrentItem(Math.min(mSectionsPagerAdapter.getCount() - 1,
+                                mViewPager.getCurrentItem() + 1));
+                        break;
+                }
+            }
+        });
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mDetector.unregisterListener();
     }
 
     /**

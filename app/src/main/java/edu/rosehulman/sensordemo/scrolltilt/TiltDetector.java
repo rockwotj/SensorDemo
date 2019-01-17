@@ -1,6 +1,12 @@
 package edu.rosehulman.sensordemo.scrolltilt;
 
 import android.content.Context;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
+
+import edu.rosehulman.sensordemo.MathUtils;
 
 /**
  * A detector for device "Tilts" which is the top or bottom of the device being higher or
@@ -10,7 +16,9 @@ import android.content.Context;
  */
 public class TiltDetector {
 
-    private Listener mListener;
+    private final SensorManager mManager;
+    private final Sensor mSensor;
+    private SensorEventListener mListener;
 
     /** The direction of the tilt. */
     public enum Direction {
@@ -30,15 +38,33 @@ public class TiltDetector {
     }
 
     public TiltDetector(Context context) {
-        // TODO: Implement me!
+        mManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
+        mSensor = mManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
     }
 
-    public void registerListener(Listener listener) {
-        // TODO: Implement me!
+    public void registerListener(final Listener listener) {
+        mListener = new SensorEventListener() {
+            @Override
+            public void onSensorChanged(SensorEvent sensorEvent) {
+                float y = sensorEvent.values[1];
+                if (MathUtils.withinDelta(0f, y, 0.5f)) {
+                    return;
+                }
+                listener.onTilt(y > 0 ? Direction.BOTTOM : Direction.TOP,
+                        Math.abs(y) / SensorManager.GRAVITY_EARTH);
+            }
+
+            @Override
+            public void onAccuracyChanged(Sensor sensor, int i) {
+                // ignore
+            }
+        };
+        mManager.registerListener(mListener, mSensor, SensorManager.SENSOR_DELAY_UI);
     }
 
     public void unregisterListener() {
-        // TODO: Implement me!
+        mManager.unregisterListener(mListener);
+        mListener = null;
     }
 
 }

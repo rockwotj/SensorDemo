@@ -9,6 +9,7 @@ import edu.rosehulman.sensordemo.R;
 public class ScrollTiltActivity extends Activity {
 
     private NestedScrollView mScrollView;
+    private TiltDetector mTiltDetector;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,6 +17,32 @@ public class ScrollTiltActivity extends Activity {
         setContentView(R.layout.activity_scroll_tilt);
         getActionBar().setDisplayHomeAsUpEnabled(true);
         mScrollView = findViewById(R.id.scroll_view);
-        // mScrollView.smoothScrollBy(dx, dy);
+        mTiltDetector = new TiltDetector(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mTiltDetector.registerListener(new TiltDetector.Listener() {
+            @Override
+            public void onTilt(TiltDetector.Direction direction, double magnitude) {
+               int dy = 0;
+               switch (direction) {
+                   case TOP:
+                       dy = (int) (magnitude * 20);
+                       break;
+                   case BOTTOM:
+                       dy = (int) (magnitude * -20);
+                       break;
+               }
+               mScrollView.smoothScrollBy(0, dy);
+            }
+        });
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mTiltDetector.unregisterListener();
     }
 }
