@@ -5,10 +5,13 @@ import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import java.util.Random;
+
 import edu.rosehulman.sensordemo.R;
 
 public class PickShakeActivity extends Activity {
 
+    private ShakeDetector mDetector;
     private Spinner mSpinner;
 
     @Override
@@ -22,5 +25,24 @@ public class PickShakeActivity extends Activity {
                 R.array.planets_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mSpinner.setAdapter(adapter);
+        mDetector = new ShakeDetector(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mDetector.registerListener(new ShakeDetector.Listener() {
+            @Override
+            public void onShake() {
+                int pos = new Random().nextInt(mSpinner.getCount());
+                mSpinner.setSelection(pos);
+            }
+        });
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mDetector.unregisterListener();
     }
 }
